@@ -5,8 +5,8 @@ import time
 
 async def main():
     # Set up some variables to access the login and 2fa login pages
-    site = "https://hitbtc.com/login"
-    username = "fascellnick@gmail.com"
+    site = "https://hitbtc.com/signinapp"
+    Email = "fascellnick@gmail.com"
     password = "Nicho!@#$88"
 
     # A new client session for each attempt for this script
@@ -28,7 +28,7 @@ async def login_csrf(site, session):
     Returns:
         string: CSRF token                
     """
-    async with session.get(f'https://{site}/login') as resp:
+    async with session.get(f'https://{site}/signinapp') as resp:
         soup = BeautifulSoup(await resp.text(),'html.parser')
         return soup.find('input', {'name':'csrf'}).get('value')
 
@@ -48,7 +48,7 @@ async def post_login(site, session, username, password, csrf):
         'username' : username,
         'password' : password
     }
-    async with session.post(f'https://{site}/login', data=logindata) as resp:
+    async with session.post(f'https://{site}/signinapp', data=logindata) as resp:
         soup = BeautifulSoup(await resp.text(),'html.parser')
         return soup.find('input', {'name':'csrf'}).get('value')
 
@@ -66,7 +66,7 @@ async def post_2fa(site, session, csrf, mfacode):
         'csrf' : csrf,
         'mfa-code' : mfacode
     }
-    async with session.post(f'https://{site}/login2', data=logindata, allow_redirects=False) as resp:
+    async with session.post(f'https://{site}/signinapp', data=logindata, allow_redirects=False) as resp:
         soup = BeautifulSoup(await resp.text(),'html.parser')
     return resp.status
 
